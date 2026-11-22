@@ -1,5 +1,5 @@
 # 통계학입문 과제 1 — 정규분포 (R 학생용)
-# 이름: __________  학번: __________
+# 이름: ___송시현_______  학번: ____2026119023______
 # 목표: 정규분포의 표준화, 확률, 분위수, 확률밀도 그래프를 계산함
 # 별도의 패키지 설치 없이 base R만 사용함
 
@@ -7,24 +7,24 @@
 # X ~ N(70, 10^2)
 
 # 문제 1. 평균과 표준편차를 저장할 것
-mu <- NA_real_       # TODO: 70으로 수정
-sigma <- NA_real_    # TODO: 10으로 수정
+mu <- 70       # TODO: 70으로 수정
+sigma <- 10  # TODO: 10으로 수정
 
 # 문제 2. 85점의 Z-score를 계산할 것
 score <- 85
-z_score <- NA_real_  # TODO: (score - mu) / sigma
+z_score <- (score-mu) / sigma  # TODO: (score - mu) / sigma
 
 # 문제 3. P(X >= 80)을 계산할 것
 # pnorm(x, mean=..., sd=...)는 P(X <= x)를 반환함
 # lower.tail=FALSE를 지정하면 오른쪽 꼬리확률을 반환함
-p_above_80 <- NA_real_  # TODO: pnorm(..., lower.tail=FALSE)
+p_above_80 <- pnorm(80, mean=mu, sd=sigma, lower.tail=FALSE)  # TODO: pnorm(..., lower.tail=FALSE)
 
 # 문제 4. P(60 <= X <= 80)을 계산할 것
-p_60_to_80 <- NA_real_   # TODO: 두 누적확률의 차이
+p_60_to_80 <- pnorm(80, mean=mu, sd=sigma) -  pnorm(60, mean=mu, sd=sigma) # TODO: 두 누적확률의 차이
 
 # 문제 5. 상위 5% 경계 점수(95백분위수)를 구할 것
 # qnorm(확률, mean=..., sd=...)는 분위수를 반환함
-cutoff_top_5 <- NA_real_  # TODO
+cutoff_top_5 <- qnorm(0.95, mean=mu, sd=sigma)  # TODO
 
 cat('2. Z-score:', z_score, '\n')
 cat('3. P(X >= 80):', p_above_80, '\n')
@@ -36,15 +36,19 @@ cat('5. 상위 5% 기준점:', cutoff_top_5, '\n')
 # dnorm(x, mean=..., sd=...)는 확률밀도를 반환함
 if (!is.na(mu) && !is.na(sigma)) {
   x <- seq(40, 100, length.out=400)
-  y <- NA_real_  # TODO: dnorm(...) 사용
+  y <- dnorm(x, mean=mu, sd=sigma) # TODO: dnorm(...) 사용
   if (!all(is.na(y))) {
+     png("normal_distribution_R.png")
     plot(x, y, type='l', lwd=2, main='Exam scores: Normal distribution',
          xlab='Score', ylab='Density')
     abline(v=mu, lty=2)
     legend('topright', legend=c('Normal density', 'Mean = 70'),
            lty=c(1, 2), bty='n')
+            dev.off()
   }
 }
 
 # [서술] 결과를 2~3문장으로 해석할 것
-# 답:
+# 답: 시험 점수가 평균 70점, 표준편차 10점인 정규분포를 따를 때, 85점의 Z-score는 1.5000으로 평균보다 1.5표준편차 높은 점수이다.
+# 80점 이상 받을 확률은 0.1587이며, 60점에서 80점 사이의 점수를 받을 확률은 0.6827이다.
+# 또한 상위 5%에 해당하는 기준 점수는 86.4485점이다.
